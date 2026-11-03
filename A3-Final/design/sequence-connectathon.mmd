@@ -1,0 +1,22 @@
+%% 序列圖（練習 3）：寫入流程「病人送出主訴」到資料寫入成功、回覆前端。失敗分支見 flowchart_detail
+sequenceDiagram
+  autonumber
+  participant P as 病人頁
+  participant T as 後端 /api/triage/analyze
+  participant F as FHIR Server
+  participant G as Gemini
+  P->>T: POST { patientId, patientText }
+  T->>T: 限流、檢查輸入格式
+  T->>F: GET Patient/{patientId}
+  F-->>T: 200 Patient（含 managingOrganization、generalPractitioner）
+  T->>T: 去識別化主訴
+  T->>G: generateContent(systemInstruction + 主訴, responseSchema)
+  G-->>T: JSON { urgency_score, needs_human_intervention, summary, symptoms, emotion }
+  T->>T: 檢查 JSON、關鍵字安全網
+  T->>F: POST Encounter（Encounter-twcore）
+  F-->>T: 201 Encounter/{eid}
+  T->>F: POST Condition（Condition-twcore，encounter → eid）
+  F-->>T: 201 Condition/{cid}
+  T->>F: POST Observation（篩檢與評估 Profile，valueQuantity＝分數，encounter → eid）
+  F-->>T: 201 Observation/{oid}
+  T-->>P: 200 { urgency_score, encounter_id, condition_id, fhir_reference: oid }

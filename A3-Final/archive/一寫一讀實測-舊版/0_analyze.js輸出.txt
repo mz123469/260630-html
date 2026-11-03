@@ -1,0 +1,10 @@
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+正在分析病人語意...
+--------------------------------
+分析結果: {
+  "emotion": "感激",
+  "urgency_score": 1,
+  "symptoms": [],
+  "needs_human_intervention": false,
+  "summary": "病人傷口復原良好，疼痛消失，詢問下週是否可開始運動。"
+}

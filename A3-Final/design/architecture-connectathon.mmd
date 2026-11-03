@@ -1,0 +1,29 @@
+%% AI 分流系統 架構圖（練習 1）聯測版：9 個節點。實線＝寫入流程，虛線＝讀取流程，粗線＝醫師接受卡片建議；v14 加「④ 匯入 JSON」那一條（聯測松 Track 1）
+flowchart LR
+  subgraph faces[前端介面 Vue]
+    P["病人頁"]
+    D["醫師頁"]
+    I["④ 匯入 JSON 頁"]
+  end
+  subgraph brain[後端服務 Express :3000]
+    T["/api/triage/analyze"]
+    C["CDS 服務 /cds-services"]
+    X["/api/fhirfox<br/>官方 FHIRfox 規則轉換"]
+  end
+  subgraph organs[外部服務與資料儲存]
+    G["Gemini"]
+    F[("FHIR Server<br/>twcore.hapi.fhir.tw")]
+    V["validator_cli<br/>TW Core 1.0.0"]
+  end
+  P -->|patientId、patientText| T
+  T -->|去識別化主訴 + Prompt| G
+  G -->|urgency_score、needs_human、summary| T
+  T -->|Encounter → Condition → Observation| F
+  D -.->|patient-view、patientId| C
+  C -.->|查最新一筆 Observation| F
+  C -.->|卡片 + 建議（轉介單／回診）| D
+  D ==>|接受建議：Task／Appointment| F
+  I -->|Simplified JSON| X
+  X -.->|Bundle| V
+  V -.->|Error 數| X
+  X -->|transaction Bundle（全部 POST）| F

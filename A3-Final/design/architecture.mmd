@@ -1,0 +1,15 @@
+%% AI 分流系統 一般使用版架構圖（練習 1 文字版）：5 個節點、8 條連線；畫布版 architecture.png，聯測版 architecture-connectathon.mmd
+%% 前端兩條雙向線各代表一來一回兩條連線（→ 送出、← 回傳），所以仍是 8 條
+%% 左欄前端介面、中欄後端服務、右欄外部服務；圓柱＝資料儲存
+flowchart LR
+  P["前端：病人端<br/>填基本資料與主訴"]
+  D["前端：醫師端<br/>選機構、身分後查看卡片"]
+  B["後端服務 Express :3000<br/>驗證、去識別化、AI 評估<br/>寫入與讀取 FHIR<br/>產生卡片與建議"]
+  G["Gemini"]
+  F[("FHIR Server<br/>twcore.hapi.fhir.tw")]
+  P <-->|"→ 基本資料、主訴<br/>← 分數、摘要"| B
+  D <-->|"→ 機構、醫師、開啟病歷<br/>← 卡片 + 建議按鈕"| B
+  B -->|去識別化主訴 + 規則| G
+  G -->|分數 JSON| B
+  B -->|Patient、Encounter、Condition<br/>Observation、Task、Appointment| F
+  F -->|最新一筆 Observation| B

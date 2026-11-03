@@ -1,0 +1,33 @@
+%% 細部流程圖（練習 2 格式）：後端節點 /api/fhirfox/upload「匯入聯測 JSON → 驗證 → 上傳」。菱形＝判斷，每個「否」寫狀態碼
+%% /convert 只做到「組 collection Bundle」；/validate 做到「Error = 0？」
+flowchart TD
+  S([開始：收到 POST /api/fhirfox/upload]) --> I[/輸入：FHIRfox Simplified JSON/]
+  I --> R{一分鐘內同來源<br/>超過 6 次？}
+  R -->|是| E429[回 429 上傳太頻繁]
+  R -->|否| SZ{body ≤ 1 MB<br/>且是合法 JSON？}
+  SZ -->|超過| E413[回 413 資料太大]
+  SZ -->|不是 JSON| E400a[回 400 JSON 格式錯誤]
+  SZ -->|是| A{陣列或 resources 陣列<br/>且 1–100 筆？}
+  A -->|否| E400b[回 400 列出原因]
+  A -->|是| TY{每筆 resourceType 在規則表、<br/>id 合法、沒有重複？}
+  TY -->|否| E400c[回 400 列出第幾筆]
+  TY -->|是| CV[照官方 CSV 逐欄轉換<br/>copy／code_map／constant／build_reference]
+  CV --> CE{必填有值、院內碼在對照表、<br/>數值是數字、值 ≤ 1000 字？}
+  CE -->|否| E400d[回 400 列出 第幾筆 型別/id.欄位]
+  CE -->|是| RF{參照都在同一份資料裡、<br/>沒有跨病人？}
+  RF -->|否| E400e[回 400 列出哪一筆參照錯]
+  RF -->|是| B[組 collection Bundle<br/>fullUrl＝urn:uuid（UUID v5）]
+  B --> VC{validator_cli 與 Java<br/>可以執行？}
+  VC -->|否| E503[回 503 無法驗證，不上傳]
+  VC -->|是| VE{TW Core 1.0.0<br/>Error = 0？}
+  VE -->|否| E422[回 422 列出 Error，不上傳]
+  VE -->|是| TX[轉成 transaction Bundle<br/>全部 POST、不帶 id<br/>機構／醫師／病人帶 If-None-Exist]
+  TX --> FS{FHIR Server 回應？}
+  FS -->|連不到| E502a[回 502 沒有送出任何資料]
+  FS -->|逾時| E504[回 504 不確定是否寫入，請確認]
+  FS -->|4xx| E4xx[回同一個狀態碼 整包沒有寫入]
+  FS -->|5xx| E5xx[回同一個狀態碼 請到伺服器確認]
+  FS -->|2xx| OK{transaction-response 筆數相同、<br/>每筆位置的型別與 id 都對？}
+  OK -->|否| E502b[回 502 無法確認寫入了哪些資源]
+  OK -->|是| O[/輸出：200 每筆 id、201 新建／200 沿用、網址、patientId/]
+  O --> X([結束])

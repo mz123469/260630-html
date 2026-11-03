@@ -1,0 +1,732 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10",
+      "resource": {
+        "resourceType": "Organization",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Organization-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Organization/1</p></div>"
+        },
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "PRN"
+                }
+              ]
+            },
+            "system": "https://www.tph.mohw.gov.tw",
+            "value": "1234560018"
+          }
+        ],
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "display": "Healthcare Provider",
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "prov"
+              }
+            ]
+          }
+        ],
+        "name": "台北範例醫院",
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "work",
+            "value": "02-2312-3456"
+          }
+        ],
+        "address": [
+          {
+            "text": "台北市中正區常德街1號"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c",
+      "resource": {
+        "resourceType": "Practitioner",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Practitioner-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Practitioner/1</p></div>"
+        },
+        "active": true,
+        "identifier": [
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MD"
+                }
+              ]
+            },
+            "system": "https://www.tph.mohw.gov.tw",
+            "value": "DOC-AI-TRIAGE-01"
+          }
+        ],
+        "name": [
+          {
+            "text": "陳醫師",
+            "use": "official"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/PractitionerRole-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>PractitionerRole/1</p></div>"
+        },
+        "active": true,
+        "practitioner": {
+          "reference": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c"
+        },
+        "organization": {
+          "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "display": "General physician",
+                "system": "http://snomed.info/sct",
+                "code": "59058001"
+              }
+            ],
+            "text": "家庭醫學科醫師"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "work",
+            "value": "02-2312-3456"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898",
+      "resource": {
+        "resourceType": "Patient",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Patient-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Patient/1</p></div>"
+        },
+        "identifier": [
+          {
+            "value": "1",
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR"
+                }
+              ]
+            },
+            "system": "https://www.tph.mohw.gov.tw"
+          },
+          {
+            "value": "Q200000001",
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NNxxx"
+                }
+              ]
+            },
+            "system": "http://www.moi.gov.tw"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "text": "測試病人"
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1985-04-12",
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "mobile",
+            "value": "0912-345-678"
+          }
+        ],
+        "address": [
+          {
+            "text": "台北市中正區仁愛路一段1號"
+          }
+        ],
+        "managingOrganization": {
+          "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158",
+      "resource": {
+        "resourceType": "Encounter",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Encounter-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Encounter/1</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "https://www.tph.mohw.gov.tw/encounter",
+            "value": "1"
+          }
+        ],
+        "status": "finished",
+        "class": {
+          "display": "ambulatory",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "AMB"
+        },
+        "type": [
+          {
+            "coding": [
+              {
+                "display": "ambulatory",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "code": "AMB"
+              }
+            ]
+          }
+        ],
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "display": "Acute pharyngitis",
+                "system": "http://snomed.info/sct",
+                "code": "363746003"
+              }
+            ]
+          }
+        ],
+        "serviceType": {
+          "coding": [
+            {
+              "display": "General Practice",
+              "system": "http://terminology.hl7.org/CodeSystem/service-type",
+              "code": "124"
+            }
+          ],
+          "text": "家醫科門診"
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "period": {
+          "start": "2026-10-20T09:00:00+08:00",
+          "end": "2026-10-20T09:20:00+08:00"
+        },
+        "serviceProvider": {
+          "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "display": "attender",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "ATND"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c"
+            },
+            "period": {
+              "start": "2026-10-20T09:00:00+08:00",
+              "end": "2026-10-20T09:20:00+08:00"
+            }
+          }
+        ],
+        "diagnosis": [
+          {
+            "condition": {
+              "reference": "urn:uuid:54e6558f-7295-54ee-9f63-e642e1ace79b"
+            },
+            "use": {
+              "coding": [
+                {
+                  "display": "Admission diagnosis",
+                  "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                  "code": "AD"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:54e6558f-7295-54ee-9f63-e642e1ace79b",
+      "resource": {
+        "resourceType": "Condition",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Condition-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Condition/1</p></div>"
+        },
+        "clinicalStatus": {
+          "coding": [
+            {
+              "display": "Active",
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "display": "Confirmed",
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "display": "Encounter Diagnosis",
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "encounter-diagnosis"
+              }
+            ]
+          }
+        ],
+        "severity": {
+          "coding": [
+            {
+              "display": "Mild",
+              "system": "http://snomed.info/sct",
+              "code": "255604002"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "display": "Acute pharyngitis",
+              "system": "http://snomed.info/sct",
+              "code": "363746003"
+            }
+          ],
+          "text": "感冒/上呼吸道不適"
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "recordedDate": "2026-10-20T09:05:00+08:00",
+        "recorder": {
+          "reference": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c"
+        },
+        "note": [
+          {
+            "text": "主訴感冒、流鼻水與喉嚨痛。"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9355c5dc-6588-590d-9ccb-00239be99dfc",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-body-temperature-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Observation/1</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "display": "Vital Signs",
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "display": "Body temperature",
+              "system": "http://loinc.org",
+              "code": "8310-5"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "effectiveDateTime": "2026-10-20T09:03:00+08:00",
+        "performer": [
+          {
+            "reference": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778"
+          }
+        ],
+        "valueQuantity": {
+          "value": 38.1,
+          "unit": "degree Celsius",
+          "system": "http://unitsofmeasure.org",
+          "code": "Cel"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 36
+            },
+            "high": {
+              "value": 37.5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dc8cc304-3729-53a4-b031-cb60d23d7046",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Observation/2</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "display": "Laboratory",
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "display": "Leukocytes [#/volume] in Blood by Automated count",
+              "system": "http://loinc.org",
+              "code": "6690-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "effectiveDateTime": "2026-10-20T09:10:00+08:00",
+        "performer": [
+          {
+            "reference": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778"
+          }
+        ],
+        "valueQuantity": {
+          "value": 11.2,
+          "unit": "thousands per microliter",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*3/uL"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 4
+            },
+            "high": {
+              "value": 10
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:99cbaf10-66e5-55d6-a8dd-82bd9c6c823b",
+      "resource": {
+        "resourceType": "Procedure",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Procedure-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Procedure/1</p></div>"
+        },
+        "status": "completed",
+        "category": {
+          "coding": [
+            {
+              "display": "Surgical procedure",
+              "system": "http://snomed.info/sct",
+              "code": "387713003"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "display": "Wound care",
+              "system": "http://snomed.info/sct",
+              "code": "225358003"
+            }
+          ],
+          "text": "傷口護理"
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "performedDateTime": "2026-10-20T09:15:00+08:00",
+        "performer": [
+          {
+            "actor": {
+              "reference": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a168a5cc-cdd3-5d83-b369-1b3e8b701617",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/DiagnosticReport-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>DiagnosticReport/1</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "display": "Laboratory",
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB"
+              }
+            ],
+            "text": "實驗室檢驗"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "display": "CBC W Auto Differential panel - Blood",
+              "system": "http://loinc.org",
+              "code": "57021-8"
+            }
+          ],
+          "text": "血液常規檢查報告 (CBC)"
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "effectiveDateTime": "2026-10-20T09:10:00+08:00",
+        "issued": "2026-10-20T09:30:00+08:00",
+        "performer": [
+          {
+            "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:dc8cc304-3729-53a4-b031-cb60d23d7046"
+          }
+        ],
+        "conclusion": "白血球略高，請結合臨床狀況評估。"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d9a6e08b-5ceb-5c90-b808-ea53ef167f73",
+      "resource": {
+        "resourceType": "Medication",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Medication-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Medication/1</p></div>"
+        },
+        "code": {
+          "coding": [
+            {
+              "display": "Acetaminophen",
+              "system": "http://snomed.info/sct",
+              "code": "387517004"
+            }
+          ],
+          "text": "Acetaminophen 500 mg"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ed07e7ac-aae7-57dd-b73e-bb33f435e483",
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/MedicationRequest-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>MedicationRequest/1</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "https://www.tph.mohw.gov.tw/prescription",
+            "value": "1"
+          }
+        ],
+        "status": "active",
+        "intent": "order",
+        "medicationReference": {
+          "reference": "urn:uuid:d9a6e08b-5ceb-5c90-b808-ea53ef167f73"
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "authoredOn": "2026-10-20T09:18:00+08:00",
+        "requester": {
+          "reference": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778"
+        },
+        "reasonReference": [
+          {
+            "reference": "urn:uuid:54e6558f-7295-54ee-9f63-e642e1ace79b"
+          }
+        ],
+        "dosageInstruction": [
+          {
+            "text": "Acetaminophen 500 mg 口服，每 6 小時一次，發燒時使用。",
+            "timing": {
+              "repeat": {
+                "frequency": 1,
+                "period": 6,
+                "periodUnit": "h"
+              },
+              "code": {
+                "coding": [
+                  {
+                    "display": "Q6H",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation",
+                    "code": "Q6H"
+                  }
+                ]
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "display": "Oral route",
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006"
+                }
+              ]
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 500,
+                  "code": "mg",
+                  "system": "http://unitsofmeasure.org"
+                }
+              }
+            ]
+          }
+        ],
+        "dispenseRequest": {
+          "expectedSupplyDuration": {
+            "value": 3,
+            "system": "http://unitsofmeasure.org",
+            "code": "d"
+          }
+        }
+      }
+    }
+  ]
+}

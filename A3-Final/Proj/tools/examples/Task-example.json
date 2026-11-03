@@ -1,0 +1,35 @@
+{
+  "resourceType": "Task",
+  "id": "task-ai-triage-example",
+  "identifier": [
+    {
+      "system": "https://www.tph.mohw.gov.tw/ai-triage/follow-up",
+      "value": "task-obs-ai-triage-example"
+    }
+  ],
+  "status": "requested",
+  "intent": "order",
+  "priority": "urgent",
+  "code": {
+    "text": "轉介"
+  },
+  "description": "AI 分流高風險：病人主訴胸痛及呼吸困難",
+  "focus": {
+    "reference": "Observation/obs-ai-triage-example"
+  },
+  "for": {
+    "reference": "Patient/patient-tw-example"
+  },
+  "authoredOn": "2026-10-31T05:00:00.000Z",
+  "lastModified": "2026-10-31T05:00:00.000Z",
+  "requester": {
+    "reference": "Practitioner/pra-ai-triage-example"
+  },
+  "owner": {
+    "reference": "Practitioner/pra-ai-triage-example"
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>轉介單：AI 分流高風險：病人主訴胸痛及呼吸困難</p><p>病人 Patient/patient-tw-example，依據 Observation/obs-ai-triage-example</p></div>"
+  }
+}

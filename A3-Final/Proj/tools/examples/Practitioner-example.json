@@ -1,0 +1,50 @@
+{
+  "resourceType": "Practitioner",
+  "id": "pra-ai-triage-example",
+  "meta": {
+    "profile": [
+      "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Practitioner-twcore"
+    ]
+  },
+  "identifier": [
+    {
+      "use": "official",
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "NNxxx"
+          }
+        ]
+      },
+      "system": "http://www.moi.gov.tw",
+      "value": "D123456789"
+    },
+    {
+      "use": "official",
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MD",
+            "display": "Medical License number"
+          }
+        ]
+      },
+      "system": "https://ma.mohw.gov.tw",
+      "value": "醫字第000999號"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "use": "official",
+      "text": "王醫師"
+    }
+  ],
+  "gender": "male",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>醫事人員：王醫師</p><p>證書字號：醫字第000999號</p></div>"
+  }
+}

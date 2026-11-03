@@ -1,0 +1,9 @@
+node_modules
+
+# ---- 2026-08-26 整理包資安清理新增：憑證檔一律不進版控 ----
+.env
+.env.*
+!.env.example
+
+# 聯測證據：每次 FHIR Request/Response 的完整紀錄（含病人資料，交件前挑要的貼進 4_Record）
+logs/

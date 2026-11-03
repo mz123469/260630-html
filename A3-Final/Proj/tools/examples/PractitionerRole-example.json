@@ -1,0 +1,44 @@
+{
+  "resourceType": "PractitionerRole",
+  "id": "prarole-ai-triage-example",
+  "meta": {
+    "profile": [
+      "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/PractitionerRole-twcore"
+    ]
+  },
+  "active": true,
+  "practitioner": {
+    "reference": "Practitioner/pra-ai-triage-example"
+  },
+  "organization": {
+    "reference": "Organization/org-ai-triage-example"
+  },
+  "code": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "309343006",
+          "display": "Medical doctor"
+        }
+      ],
+      "text": "醫師"
+    }
+  ],
+  "specialty": [
+    {
+      "coding": [
+        {
+          "system": "https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medical-consultation-department-nhi-tw",
+          "code": "00",
+          "display": "不分科"
+        }
+      ],
+      "text": "不分科"
+    }
+  ],
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>職務：醫師（Practitioner/pra-ai-triage-example，Organization/org-ai-triage-example）</p></div>"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "resourceType": "Condition",
+  "id": "con-ai-triage-example",
+  "meta": {
+    "profile": [
+      "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Condition-twcore"
+    ]
+  },
+  "clinicalStatus": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "active",
+        "display": "Active"
+      }
+    ]
+  },
+  "verificationStatus": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+        "code": "unconfirmed",
+        "display": "Unconfirmed"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+          "code": "encounter-diagnosis",
+          "display": "Encounter Diagnosis"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "text": "病人主訴胸痛及呼吸困難"
+  },
+  "subject": {
+    "reference": "Patient/patient-tw-example"
+  },
+  "encounter": {
+    "reference": "Encounter/enc-ai-triage-example"
+  },
+  "onsetDateTime": "2026-10-31T05:00:00.000Z",
+  "recordedDate": "2026-10-31T05:00:00.000Z",
+  "asserter": {
+    "reference": "Patient/patient-tw-example"
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>問題：病人主訴胸痛及呼吸困難</p></div>"
+  }
+}

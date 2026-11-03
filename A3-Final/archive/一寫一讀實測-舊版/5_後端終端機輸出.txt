@@ -1,0 +1,137 @@
+Server is running on http://localhost:3000
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+AI 分析結果: {
+  emotion: '焦慮',
+  urgency_score: 3,
+  symptoms: [ '無明顯不適' ],
+  needs_human_intervention: true,
+  summary: '病人詢問是否可自行暫停降血壓藥物，目前自述無不適，需醫師評估用藥調整之風險。'
+}
+[FHIR] 資料已存檔，ID: 149525
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 3 FHIR ID： 149525
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 3，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+AI 分析結果: {
+  emotion: '擔憂',
+  urgency_score: 6,
+  symptoms: [ '傷口紅腫', '傷口發熱', '傷口滲液' ],
+  needs_human_intervention: true,
+  summary: '病患自述開刀傷口出現紅腫、發熱及滲液，懷疑有感染跡象，請醫師評估。'
+}
+[FHIR] 資料已存檔，ID: 149526
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 6 FHIR ID： 149526
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 6，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+AI 分析結果: {
+  emotion: '恐懼',
+  urgency_score: 9,
+  symptoms: [ '胸痛', '呼吸困難' ],
+  needs_human_intervention: true,
+  summary: '病人主訴胸痛及呼吸困難，有立即就醫之必要。'
+}
+[FHIR] 資料已存檔，ID: 149527
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 9 FHIR ID： 149527
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 9，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+AI 分析結果: {
+  emotion: '擔憂',
+  urgency_score: 3,
+  symptoms: [ '無明顯不適' ],
+  needs_human_intervention: true,
+  summary: '病人詢問是否可自行暫停降血壓藥物，目前無不適症狀，需醫師指示。'
+}
+[FHIR] 資料已存檔，ID: 149528
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 3 FHIR ID： 149528
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 3，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+AI 分析結果: {
+  emotion: '擔憂',
+  urgency_score: 7,
+  symptoms: [ '傷口紅腫', '傷口發熱', '傷口滲液' ],
+  needs_human_intervention: true,
+  summary: '病人自述開刀傷口出現紅腫、發熱及滲液狀況，懷疑有感染疑慮，建議醫師評估。'
+}
+[FHIR] 資料已存檔，ID: 149529
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 7 FHIR ID： 149529
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 7，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+AI 分析結果: {
+  emotion: '痛苦',
+  urgency_score: 9,
+  symptoms: [ '胸口疼痛', '呼吸困難' ],
+  needs_human_intervention: true,
+  summary: '病人主訴胸口疼痛及呼吸困難，高度懷疑有心血管相關問題，建議立即就醫。'
+}
+[FHIR] 資料已存檔，ID: 149530
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 9 FHIR ID： 149530
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 9，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+[AI] 第 1 次呼叫失敗： [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 5h59m1.441450255s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.5-flash-lite"},"quotaValue":"20"}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"21541s"}]
+AI 分析結果: {
+  emotion: '擔憂',
+  urgency_score: 3,
+  symptoms: [ '無明顯不適' ],
+  needs_human_intervention: true,
+  summary: '病人詢問是否可自行停用降血壓藥物數天，目前無明顯不適，需醫師評估用藥調整之可行性。'
+}
+[FHIR] 資料已存檔，ID: 149531
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 3 FHIR ID： 149531
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 3，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+[AI] 第 1 次呼叫失敗： [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 5h58m58.289465052s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"model":"gemini-2.5-flash-lite","location":"global"},"quotaValue":"20"}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"21538s"}]
+AI 分析結果: {
+  emotion: '擔憂',
+  urgency_score: 7,
+  symptoms: [ '傷口紅腫', '傷口發熱', '傷口滲液' ],
+  needs_human_intervention: true,
+  summary: '病人自述開刀傷口出現紅腫、發熱及滲液情況，疑似有感染跡象，建議醫師評估。'
+}
+[FHIR] 資料已存檔，ID: 149532
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 7 FHIR ID： 149532
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 7，需人工介入: true
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+[AI] 第 1 次呼叫失敗： [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 5h58m55.65790879s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerDayPerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.5-flash-lite"},"quotaValue":"20"}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"21535s"}]
+[AI] 第 2 次呼叫失敗： [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash-lite
+Please retry in 55.452441188s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.5-flash-lite"},"quotaValue":"10"}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"55s"}]
+[分流] 分析失敗: AI 分析失敗（[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash-lite
+Please retry in 55.452441188s. [{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Learn more about Gemini API quotas","url":"https://ai.google.dev/gemini-api/docs/rate-limits"}]},{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"quotaMetric":"generativelanguage.googleapis.com/generate_content_free_tier_requests","quotaId":"GenerateRequestsPerMinutePerProjectPerModel-FreeTier","quotaDimensions":{"location":"global","model":"gemini-2.5-flash-lite"},"quotaValue":"10"}]},{"@type":"type.googleapis.com/google.rpc.RetryInfo","retryDelay":"55s"}]），請稍後重試並由人員確認
+
+--- 收到病人 (patient-tw-001) 回饋 ---
+AI 分析結果: {
+  emotion: '焦慮',
+  urgency_score: 9,
+  symptoms: [ '胸痛', '呼吸困難' ],
+  needs_human_intervention: true,
+  summary: '病人主訴胸痛及呼吸困難，疑似有立即性的心血管問題，建議立即就醫評估。'
+}
+[FHIR] 資料已存檔，ID: 149533
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 9 FHIR ID： 149533
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 9，需人工介入: true
+[CDS Hook] 醫師正在查看病人: patient-tw-001
+[CDS Hook] 找到最新評估，分數: 9，需人工介入: true

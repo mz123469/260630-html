@@ -1,0 +1,11 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+Tim-0001,QD,QD,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,一天一次,true
+Tim-0002,BID,BID,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,一天兩次,true
+Tim-0003,TID,TID,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,一天三次,true
+Tim-0004,QID,QID,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,一天四次,true
+Tim-0005,PRN,PRN,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,需要時使用,true
+Tim-0006,Q2H,Q2H,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,每2小時一次,true
+Tim-0007,Q4H,Q4H,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,每4小時一次,true
+Tim-0008,Q6H,Q6H,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,每6小時一次,true
+Tim-0009,Q8H,Q8H,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,每8小時一次,true
+Tim-0010,PM,PM,http://terminology.hl7.org/CodeSystem/v3-GTSAbbreviation,晚間一次,true

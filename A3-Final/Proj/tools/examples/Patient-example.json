@@ -1,0 +1,45 @@
+{
+  "resourceType": "Patient",
+  "id": "patient-tw-example",
+  "meta": {
+    "profile": [
+      "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Patient-twcore"
+    ]
+  },
+  "identifier": [
+    {
+      "use": "official",
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "NNxxx"
+          }
+        ]
+      },
+      "system": "http://www.moi.gov.tw",
+      "value": "A123456789"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "use": "official",
+      "text": "陳小明"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1995-05-20",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>病人：陳小明</p><p>性別：male，生日：1995-05-20</p></div>"
+  },
+  "managingOrganization": {
+    "reference": "Organization/org-ai-triage-example"
+  },
+  "generalPractitioner": [
+    {
+      "reference": "Practitioner/pra-ai-triage-example"
+    }
+  ]
+}

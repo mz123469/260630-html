@@ -1,0 +1,33 @@
+%% 系統序列圖：一寫（病人回報）一讀（醫師查看）加上接受建議。建立資料的序列與寫入同型（檢查 → $validate → PUT/POST），省略
+sequenceDiagram
+  autonumber
+  actor Pt as 病人
+  participant P as ② 病人回報頁
+  participant B as 後端
+  participant G as Gemini
+  participant F as FHIR Server
+  participant D as ③ 醫師查看頁
+  actor Dr as 醫師
+  Pt->>P: 描述身體狀況，按送出
+  P->>B: POST /api/triage/analyze
+  B->>F: GET Patient（確認病人存在）
+  B->>G: 去識別化的自述 + YAML 規則（temperature 0）
+  G-->>B: 分數、情緒、症狀、需人工、摘要
+  B->>B: 安全網：危險關鍵字 → 至少 8 分
+  B->>F: POST Encounter → Condition → Observation
+  F-->>B: 201 ×3（id）
+  B-->>P: 200 分數 + 三筆 id
+  P-->>Pt: 依分數顯示建議（119／會聯繫／已記錄）
+  Dr->>D: 打開病歷
+  D->>B: GET /cds-services（Discovery）
+  D->>B: POST /cds-services/patient-triage-service（patient-view）
+  B->>F: 查最新一筆 AI 分流 Observation
+  F-->>B: Bundle
+  B-->>D: 卡片（緊急／注意／資訊）＋ 建議（轉介單／回診）
+  D-->>Dr: 顯示卡片與一顆按鈕
+  Dr->>D: 按「建立轉介單」或「排回診」
+  D->>B: POST /api/twcore/task 或 /appointment（只送 id）
+  B->>F: $validate → POST Task／Appointment（If-None-Exist，已有就沿用）
+  F-->>B: 201（或 200 已存在）
+  B-->>D: 已建立 Task/… 或 Appointment/…
+  D->>B: POST …/feedback（接受了哪個建議）

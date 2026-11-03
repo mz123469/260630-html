@@ -1,0 +1,175 @@
+Server is running on http://localhost:3000
+FHIR Server: http://localhost:8090/fhir
+[FHIR] PUT /CodeSystem/ai-triage 201 → CodeSystem/ai-triage
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Organization/$validate?profile=… 200
+[FHIR] POST /Organization 201 → Organization/1001
+[FHIR] GET /Practitioner?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Practitioner/$validate?profile=… 200
+[FHIR] POST /Practitioner 201 → Practitioner/1002
+[FHIR] GET /PractitionerRole?practitioner=…&organization=…&_count=… 200 → 0 筆
+[FHIR] POST /PractitionerRole/$validate?profile=… 200
+[FHIR] POST /PractitionerRole 201 → PractitionerRole/1003
+[FHIR] GET /Patient/patient-tw-mw0olcci 404
+[FHIR] GET /Patient?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Patient/$validate?profile=… 200
+[FHIR] PUT /Patient/patient-tw-mw0olcci 201 → Patient/patient-tw-mw0olcci
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+
+--- 收到病人 (patient-tw-mw0olcci) 回饋 ---
+[AI] 送出內容（已去識別化）: 我吃了新開的血壓藥之後頭很暈，剛剛差點在浴室跌倒，我很害怕。
+AI 分析結果: {
+  emotion: '恐懼',
+  urgency_score: 8,
+  symptoms: [ '頭暈' ],
+  needs_human_intervention: true,
+  summary: '服藥後頭暈險跌倒'
+}
+[FHIR] POST /Encounter 201 → Encounter/1004
+[FHIR] POST /Condition 201 → Condition/1005
+[FHIR] POST /Observation 201 → Observation/1006
+[FHIR] 已存檔 Encounter/1004、Condition/1005、Observation/1006
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 8 FHIR ID： 1006
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+[FHIR] GET /Organization/1001 200 → Organization/1001
+[FHIR] GET /Patient?organization=…&_count=… 200 → 1 筆
+[CDS Hook] 醫師正在查看病人: patient-tw-mw0olcci
+[FHIR] GET /Observation?subject=…&code=…&_sort=…&_count=… 200 → 1 筆
+[CDS Hook] 找到最新評估，分數: 8，需人工介入: true
+[FHIR] GET /Task?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Task/$validate 200
+[FHIR] POST /Task 201 → Task/1007
+[CDS Hook] feedback：卡片 f63811d5-f62d-444a-b452-ed7cfa81282e accepted，接受建議 f387d8d8-c72b-4d3d-abf2-78eac667dde0
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+
+--- 收到病人 (patient-tw-mw0olcci) 回饋 ---
+[AI] 送出內容（已去識別化）: 沒事啦，就是這幾天爬樓梯常常喘不過氣，大概是天氣太熱。
+AI 分析結果: {
+  emotion: '擔心',
+  urgency_score: 6,
+  symptoms: [ '爬樓梯喘' ],
+  needs_human_intervention: false,
+  summary: '活動時呼吸急促'
+}
+[FHIR] POST /Encounter 201 → Encounter/1008
+[FHIR] POST /Condition 201 → Condition/1009
+[FHIR] POST /Observation 201 → Observation/1010
+[FHIR] 已存檔 Encounter/1008、Condition/1009、Observation/1010
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+[FHIR] GET /Organization/1001 200 → Organization/1001
+[FHIR] GET /Patient?organization=…&_count=… 200 → 1 筆
+[CDS Hook] 醫師正在查看病人: patient-tw-mw0olcci
+[FHIR] GET /Observation?subject=…&code=…&_sort=…&_count=… 200 → 2 筆
+[CDS Hook] 找到最新評估，分數: 6，需人工介入: false
+[FHIR] GET /Appointment?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Appointment/$validate 200
+[FHIR] POST /Appointment 201 → Appointment/1011
+[CDS Hook] feedback：卡片 6d2af1a7-868f-4450-9154-fd2e87aaab6a accepted，接受建議 d0605f0a-79c4-4309-ad42-c609c7d49eb5
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+
+--- 收到病人 (patient-tw-mw0olcci) 回饋 ---
+[AI] 送出內容（已去識別化）: 傷口復原得不錯，已經不痛了，想問下禮拜可以開始運動嗎？
+AI 分析結果: {
+  emotion: '感激',
+  urgency_score: 2,
+  symptoms: [],
+  needs_human_intervention: false,
+  summary: '術後恢復良好'
+}
+[FHIR] POST /Encounter 201 → Encounter/1012
+[FHIR] POST /Condition 201 → Condition/1013
+[FHIR] POST /Observation 201 → Observation/1014
+[FHIR] 已存檔 Encounter/1012、Condition/1013、Observation/1014
+[FHIR] GET /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+[FHIR] GET /Organization/1001 200 → Organization/1001
+[FHIR] GET /Patient?organization=…&_count=… 200 → 1 筆
+[CDS Hook] 醫師正在查看病人: patient-tw-mw0olcci
+[FHIR] GET /Observation?subject=…&code=…&_sort=…&_count=… 200 → 3 筆
+[CDS Hook] 找到最新評估，分數: 2，需人工介入: false
+[FHIR] PUT /CodeSystem/ai-triage 200 → CodeSystem/ai-triage
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] POST /Organization/$validate?profile=… 200
+[FHIR] PUT /Organization/1001 200 → Organization/1001
+[FHIR] GET /Practitioner?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Practitioner/$validate?profile=… 200
+[FHIR] POST /Practitioner 201 → Practitioner/1015
+[FHIR] GET /PractitionerRole?practitioner=…&organization=…&_count=… 200 → 0 筆
+[FHIR] POST /PractitionerRole/$validate?profile=… 200
+[FHIR] POST /PractitionerRole 201 → PractitionerRole/1016
+[FHIR] GET /Patient?identifier=…&_count=… 200 → 1 筆
+[FHIR] PUT /CodeSystem/ai-triage 200 → CodeSystem/ai-triage
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] POST /Organization/$validate?profile=… 200
+[FHIR] PUT /Organization/1001 200 → Organization/1001
+[FHIR] GET /Practitioner?identifier=…&_count=… 200 → 1 筆
+[FHIR] GET /Practitioner?identifier=…&_count=… 200 → 1 筆
+[FHIR] POST /Practitioner/$validate?profile=… 200
+[FHIR] PUT /Practitioner/1015 200 → Practitioner/1015
+[FHIR] GET /PractitionerRole?practitioner=…&organization=…&_count=… 200 → 1 筆
+[FHIR] GET /Patient?identifier=…&_count=… 200 → 1 筆
+[FHIR] GET /Patient?identifier=…&_count=… 200 → 1 筆
+[FHIR] POST /Patient/$validate?profile=… 200
+[FHIR] PUT /Patient/patient-tw-mw0olcci 200 → Patient/patient-tw-mw0olcci
+[FHIR] PUT /CodeSystem/ai-triage 200 → CodeSystem/ai-triage
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] POST /Organization/$validate?profile=… 200
+[FHIR] PUT /Organization/1001 200 → Organization/1001
+[FHIR] GET /Practitioner?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Practitioner/$validate?profile=… 200
+[FHIR] POST /Practitioner 201 → Practitioner/1017
+[FHIR] GET /PractitionerRole?practitioner=…&organization=…&_count=… 200 → 0 筆
+[FHIR] POST /PractitionerRole/$validate?profile=… 200
+[FHIR] POST /PractitionerRole 201 → PractitionerRole/1018
+[FHIR] GET /Patient/patient-tw-mw0oloqk 404
+[FHIR] GET /Patient?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Patient/$validate?profile=… 200
+[FHIR] PUT /Patient/patient-tw-mw0oloqk 201 → Patient/patient-tw-mw0oloqk
+[FHIR] GET /Patient/patient-tw-mw0oloqk 200 → Patient/patient-tw-mw0oloqk
+[FHIR] GET /Organization/1001 200 → Organization/1001
+[FHIR] GET /Patient?organization=…&_count=… 200 → 2 筆
+[CDS Hook] 醫師正在查看病人: patient-tw-mw0oloqk
+[FHIR] GET /Observation?subject=…&code=…&_sort=…&_count=… 200 → 0 筆
+[FHIR] PUT /CodeSystem/ai-triage 200 → CodeSystem/ai-triage
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] GET /Organization?identifier=…&_count=… 200 → 1 筆
+[FHIR] POST /Organization/$validate?profile=… 200
+[FHIR] PUT /Organization/1001 200 → Organization/1001
+[FHIR] GET /Practitioner?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Practitioner/$validate?profile=… 200
+[FHIR] POST /Practitioner 201 → Practitioner/1019
+[FHIR] GET /PractitionerRole?practitioner=…&organization=…&_count=… 200 → 0 筆
+[FHIR] POST /PractitionerRole/$validate?profile=… 200
+[FHIR] POST /PractitionerRole 201 → PractitionerRole/1020
+[FHIR] GET /Patient/patient-tw-mw0olrac 404
+[FHIR] GET /Patient?identifier=…&_count=… 200 → 0 筆
+[FHIR] POST /Patient/$validate?profile=… 200
+[FHIR] PUT /Patient/patient-tw-mw0olrac 201 → Patient/patient-tw-mw0olrac
+[FHIR] GET /Patient/patient-tw-mw0olrac 200 → Patient/patient-tw-mw0olrac
+[FHIR] GET /Patient/patient-tw-mw0olrac 200 → Patient/patient-tw-mw0olrac
+
+--- 收到病人 (patient-tw-mw0olrac) 回饋 ---
+[AI] 送出內容（已去識別化）: 我吃了新開的血壓藥之後頭很暈，剛剛差點在浴室跌倒，我很害怕。
+AI 分析結果: {
+  emotion: '恐懼',
+  urgency_score: 8,
+  symptoms: [ '頭暈' ],
+  needs_human_intervention: true,
+  summary: '服藥後頭暈險跌倒'
+}
+[FHIR] POST /Encounter 201 → Encounter/1021
+[FHIR] POST /Condition 201 → Condition/1022
+[FHIR] POST /Observation 201 → Observation/1023
+[FHIR] 已存檔 Encounter/1021、Condition/1022、Observation/1023
+⚠️ [模擬 LINE 通知]：分數 >= 10 或需人工介入，請醫師查看。分數： 8 FHIR ID： 1023
+[FHIR] GET /Patient/patient-tw-mw0olrac 200 → Patient/patient-tw-mw0olrac
+[FHIR] GET /Organization/1001 200 → Organization/1001
+[FHIR] GET /Patient?organization=…&_count=… 200 → 3 筆
+[CDS Hook] 醫師正在查看病人: patient-tw-mw0olrac
+[FHIR] GET /Observation?subject=…&code=…&_sort=…&_count=… 200 → 1 筆
+[CDS Hook] 找到最新評估，分數: 8，需人工介入: true

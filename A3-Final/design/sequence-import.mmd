@@ -1,0 +1,21 @@
+%% 序列圖（練習 3 格式）：「匯入聯測 JSON」從預覽、驗證到上傳成功。失敗分支見 flowchart_detail-import
+sequenceDiagram
+  autonumber
+  participant P as ④ 匯入 JSON 頁
+  participant X as 後端 /api/fhirfox
+  participant V as validator_cli（TW Core 1.0.0）
+  participant F as FHIR Server
+  P->>X: POST /convert（Simplified JSON）
+  X->>X: 限流、檢查大小與筆數、照官方 CSV 轉換、檢查參照
+  X-->>P: 200 { bundle, map（第幾筆 → 哪筆 FHIR）, issues }
+  P->>P: 來源與 FHIR 並排顯示
+  P->>X: POST /validate（同一份 JSON）
+  X->>V: java -jar validator_cli.jar bundle.json -ig tw.gov.mohw.twcore#1.0.0
+  V-->>X: OperationOutcome（Error 0）
+  X-->>P: 200 { validated: true, issues }
+  P->>X: POST /upload（使用者確認後）
+  X->>X: 再轉換一次、再驗證一次（Error 0 才繼續）
+  X->>F: POST / transaction Bundle（全部 POST，機構／醫師／病人帶 If-None-Exist）
+  F-->>X: 200 transaction-response（每筆 location：Patient/123 …）
+  X-->>P: 200 { map: 每筆 id、201 新建／200 沿用、網址, patientId }
+  P->>P: 設為目前病人、列出每筆資源網址

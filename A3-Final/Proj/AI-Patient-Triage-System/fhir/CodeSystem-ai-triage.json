@@ -1,0 +1,37 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "ai-triage",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>AI 分流系統自訂代碼</p><ul><li>urgency-score：AI 分流急迫性分數</li><li>emotion：核心情緒</li><li>needs-human-intervention：需人工介入</li></ul></div>"
+  },
+  "url": "http://example.org/fhir/ai-triage/CodeSystem/ai-triage",
+  "version": "0.1.0",
+  "name": "AITriageCodes",
+  "title": "AI 病人自述分流代碼",
+  "status": "draft",
+  "experimental": true,
+  "date": "2026-10-31",
+  "publisher": "AI-Patient-Triage-System（課程期末專題）",
+  "description": "AI 分析病人自述後產生的評估項目。urgency-score 為 1 到 10 的整數，10 代表最需要立即醫療介入；分數由大型語言模型產生，僅供醫護人員參考，不可單獨作為診斷依據。",
+  "caseSensitive": true,
+  "content": "complete",
+  "count": 3,
+  "concept": [
+    {
+      "code": "urgency-score",
+      "display": "AI 分流急迫性分數",
+      "definition": "大型語言模型依病人自述評估的急迫性，1 到 10 的整數。"
+    },
+    {
+      "code": "emotion",
+      "display": "核心情緒",
+      "definition": "大型語言模型從病人自述判讀的核心情緒，例如焦慮、恐懼、平靜。"
+    },
+    {
+      "code": "needs-human-intervention",
+      "display": "需人工介入",
+      "definition": "大型語言模型判斷此則自述是否需要醫護人員主動處理（例如詢問停藥、淡化症狀）。"
+    }
+  ]
+}

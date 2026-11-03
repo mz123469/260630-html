@@ -1,0 +1,34 @@
+%% 細部流程圖（練習 2，一般使用版；聯測版見 flowchart_detail-connectathon.mmd）：功能「病人端送出基本資料與主訴 → 建立 Patient → AI 評估 → 寫入 FHIR」
+%% 圓角＝開始/結束、平行四邊形＝輸入/輸出、矩形＝處理、菱形＝判斷（每個「否」寫狀態碼）
+flowchart TD
+  S([開始：病人端按「送出」]) --> I[/輸入：姓名、身分證、生日、性別、機構代碼、主訴/]
+  I --> R{一分鐘內同來源<br/>超過 10 次？}
+  R -->|是| E429[回 429 送出太頻繁]
+  R -->|否| V1{基本資料齊全<br/>且格式正確？}
+  V1 -->|否| E400a[回 400 列出缺漏欄位]
+  V1 -->|是| V2{主訴非空白<br/>且 ≤ 3000 字？}
+  V2 -->|否| E400b[回 400 請描述身體狀況]
+  V2 -->|是| Q[查 FHIR Patient?identifier=身分證]
+  Q --> QX{查詢成功？}
+  QX -->|否| E502a[回 502 FHIR 連線失敗]
+  QX -->|是| EX{已有同一位病人？}
+  EX -->|是| USE[沿用既有 Patient id]
+  EX -->|否| VAL[$validate Patient-twcore]
+  VAL --> VX{驗證 Error = 0？}
+  VX -->|否| E422[回 422 列出錯誤位置]
+  VX -->|是| CP[POST Patient → 201 取得 id]
+  CP --> DE
+  USE --> DE[去識別化：身分證、電話、Email 換代號]
+  DE --> AI[呼叫 Gemini<br/>YAML 規則 + 評分錨點 + temperature 0 + responseSchema]
+  AI --> AJ{JSON 合規格？<br/>分數 1–10 整數}
+  AJ -->|否，重試一次仍否| E502b[回 502 AI 分析失敗，不存預設分數]
+  AJ -->|是| SN{主訴含危險關鍵字<br/>但分數 < 8？}
+  SN -->|是| UP[安全網：分數提到 8、需人工介入]
+  SN -->|否| W1
+  UP --> W1[POST Encounter]
+  W1 --> W2[POST Condition（連 Encounter）]
+  W2 --> W3[POST Observation（分數，連 Encounter）]
+  W3 --> OK{三筆都回 201？}
+  OK -->|否| E502c[回 502 FHIR 存檔失敗]
+  OK -->|是| O[/輸出：200 分數、摘要、Observation id/]
+  O --> X([結束：病人端顯示結果])

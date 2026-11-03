@@ -1,0 +1,62 @@
+{
+  "resourceType": "Encounter",
+  "id": "enc-ai-triage-example",
+  "meta": {
+    "profile": [
+      "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Encounter-twcore"
+    ]
+  },
+  "status": "finished",
+  "class": {
+    "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+    "code": "VR",
+    "display": "virtual"
+  },
+  "serviceType": {
+    "coding": [
+      {
+        "system": "https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medical-consultation-department-nhi-tw",
+        "code": "00",
+        "display": "不分科"
+      }
+    ],
+    "text": "不分科"
+  },
+  "subject": {
+    "reference": "Patient/patient-tw-example"
+  },
+  "period": {
+    "start": "2026-10-31T05:00:00.000Z",
+    "end": "2026-10-31T05:00:00.000Z"
+  },
+  "reasonCode": [
+    {
+      "text": "病人自述回報（AI 分流）"
+    }
+  ],
+  "participant": [
+    {
+      "type": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+              "code": "ATND",
+              "display": "attender"
+            }
+          ]
+        }
+      ],
+      "individual": {
+        "reference": "Practitioner/pra-ai-triage-example"
+      }
+    }
+  ],
+  "serviceProvider": {
+    "reference": "Organization/org-ai-triage-example"
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>遠距回報：2026-10-31T05:00:00.000Z</p></div>"
+  }
+}

@@ -1,0 +1,41 @@
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+
+=== 案例 1（高風險，想自行停藥）
+病人自述：降血壓的藥吃了兩個禮拜，一直乾咳，晚上咳到睡不著，我想先自己停藥看看會不會好。
+{
+  "emotion": "困擾",
+  "medication": "降血壓藥",
+  "side_effects": [
+    "乾咳",
+    "影響睡眠的咳嗽"
+  ],
+  "urgency_score": 6,
+  "needs_human_intervention": true,
+  "summary": "病人因降血壓藥引發嚴重乾咳影響睡眠，欲自行停藥，需藥師評估。"
+}
+
+=== 案例 2（低風險，單純詢問）
+病人自述：新開的止痛藥吃了胃有一點不舒服，還可以忍，想問是不是要飯後吃比較好？
+{
+  "emotion": "焦慮",
+  "medication": "止痛藥",
+  "side_effects": [
+    "胃部不舒服"
+  ],
+  "urgency_score": 3,
+  "needs_human_intervention": true,
+  "summary": "病人服用新開的止痛藥後，出現胃部不適，詢問是否需飯後服用。"
+}
+
+=== 案例 3（反話／壓抑）
+病人自述：沒事啦，藥我都有照吃，就是這幾天爬樓梯常常喘不過氣，大概是天氣太熱，不用麻煩醫生。
+{
+  "emotion": "淡定",
+  "medication": "未提及",
+  "side_effects": [
+    "爬樓梯時喘不過氣"
+  ],
+  "urgency_score": 8,
+  "needs_human_intervention": true,
+  "summary": "病人自述爬樓梯時常喘不過氣，雖淡化症狀，但有急迫性，需藥師關懷。"
+}

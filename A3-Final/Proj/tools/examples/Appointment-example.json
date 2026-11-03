@@ -1,0 +1,41 @@
+{
+  "resourceType": "Appointment",
+  "id": "appt-ai-triage-example",
+  "identifier": [
+    {
+      "system": "https://www.tph.mohw.gov.tw/ai-triage/follow-up",
+      "value": "appointment-obs-ai-triage-example"
+    }
+  ],
+  "status": "proposed",
+  "description": "回診追蹤：活動時呼吸急促",
+  "start": "2026-11-03T05:00:00.000Z",
+  "end": "2026-11-03T05:30:00.000Z",
+  "minutesDuration": 30,
+  "created": "2026-10-31T05:00:00.000Z",
+  "reasonReference": [
+    {
+      "reference": "Observation/obs-ai-triage-example"
+    }
+  ],
+  "participant": [
+    {
+      "actor": {
+        "reference": "Patient/patient-tw-example"
+      },
+      "required": "required",
+      "status": "needs-action"
+    },
+    {
+      "actor": {
+        "reference": "Practitioner/pra-ai-triage-example"
+      },
+      "required": "required",
+      "status": "needs-action"
+    }
+  ],
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>回診：回診追蹤：活動時呼吸急促</p><p>時間 2026-11-03T05:00:00.000Z（30 分鐘），待病人與醫師確認</p></div>"
+  }
+}

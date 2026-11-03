@@ -1,0 +1,3 @@
+{ "resourceType": "Patient", "id": "patient-tw-001",
+  "name": [{ "family": "王", "given": ["小明"], "text": "王小明" }],
+  "gender": "male", "birthDate": "1990-01-01" }

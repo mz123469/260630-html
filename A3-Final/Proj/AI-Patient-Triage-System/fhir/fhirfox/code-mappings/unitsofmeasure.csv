@@ -1,0 +1,24 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+%,%,percent,http://unitsofmeasure.org,百分比 (血氧),true
+cm,cm,centimeter,http://unitsofmeasure.org,公分,true
+[in_i],[in_i],inch (international),http://unitsofmeasure.org,,true
+kg,kg,kilogram,http://unitsofmeasure.org,公斤,true
+g,g,gram,http://unitsofmeasure.org,公克,true
+[lb_av],[lb_av],pound (US and British),http://unitsofmeasure.org,,true
+Cel,Cel,degree Celsius,http://unitsofmeasure.org,攝氏度,true
+[degF],[degF],degree Fahrenheit,http://unitsofmeasure.org,華氏度,true
+mm[Hg],mm[Hg],millimeter of mercury,http://unitsofmeasure.org,毫米汞柱 (血壓),true
+/min,/min,per minute,http://unitsofmeasure.org,每分鐘 (心跳/呼吸),true
+kg/m2,kg/m2,kilogram / (meter ^ 2),http://unitsofmeasure.org,BMI單位,true
+m2,m2,square meter,http://unitsofmeasure.org,,true
+{tbl},{tbl},tablet,http://unitsofmeasure.org,顆 (錠),true
+{cap},{cap},capsule,http://unitsofmeasure.org,粒 (膠囊),true
+mL,mL,milliliter,http://unitsofmeasure.org,毫升,true
+mg,mg,milligram,http://unitsofmeasure.org,毫克,true
+d,d,day,http://unitsofmeasure.org,日,true
+mg/dL,mg/dL,milligram per deciliter,http://unitsofmeasure.org,mg/dL (常見生化單位),true
+ng/mL,ng/mL,nanogram per milliliter,http://unitsofmeasure.org,ng/mL (心臟標記單位),true
+g/dL,g/dL,gram per deciliter,http://unitsofmeasure.org,g/dL (血紅素單位),true
+mmol/L,mmol/L,millimole per liter,http://unitsofmeasure.org,mmol/L (電解質單位),true
+U/L,U/L,unit per liter,http://unitsofmeasure.org,U/L (肝指數單位),true
+10*3/uL,10*3/uL,thousands per microliter,http://unitsofmeasure.org,10^3/uL (血球計數),true

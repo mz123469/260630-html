@@ -1,0 +1,46 @@
+{
+  "resourceType": "Observation",
+  "id": "149533",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2026-10-17T14:02:40.718-04:00",
+    "source": "#DXy7UhO2Mlw9gjNq"
+  },
+  "status": "final",
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "80615-8",
+        "display": "Recommended follow-up [Identifier] Narrative"
+      }
+    ],
+    "text": "焦慮"
+  },
+  "subject": {
+    "reference": "Patient/patient-tw-001"
+  },
+  "effectiveDateTime": "2026-10-17T18:02:40.006Z",
+  "valueQuantity": {
+    "value": 9,
+    "unit": "score",
+    "system": "http://unitsofmeasure.org",
+    "code": "{score}"
+  },
+  "note": [
+    {
+      "text": "AI Summary: 病人主訴胸痛及呼吸困難，疑似有立即性的心血管問題，建議立即就醫評估。"
+    },
+    {
+      "text": "Symptoms: 胸痛, 呼吸困難"
+    }
+  ],
+  "component": [
+    {
+      "code": {
+        "text": "needs_human_intervention"
+      },
+      "valueBoolean": true
+    }
+  ]
+}

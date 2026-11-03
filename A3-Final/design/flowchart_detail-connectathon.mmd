@@ -1,0 +1,30 @@
+%% 細部流程圖（練習 2）：後端節點 /api/triage/analyze 的一項功能「病人回報 → AI 分數 → 寫入 FHIR」
+flowchart TD
+  S([開始：收到 POST /api/triage/analyze]) --> I[/輸入：patientId、patientText/]
+  I --> R{一分鐘內同來源<br/>超過 10 次？}
+  R -->|是| E429[回 429 送出太頻繁]
+  R -->|否| V{patientText 非空白<br/>且 ≤ 3000 字？}
+  V -->|否| E400a[回 400 請描述身體狀況]
+  V -->|是| ID{patientId 符合<br/>FHIR id 格式？}
+  ID -->|否| E400b[回 400 請先選擇病人]
+  ID -->|是| GP[GET FHIR Patient/id]
+  GP --> PX{回的是 Patient？}
+  PX -->|404／410| E404[回 404 找不到病人]
+  PX -->|連不到或不是 Patient| E502a[回 502 FHIR 連線失敗]
+  PX -->|是| DE[去識別化：身分證、居留證、電話、Email 換代號]
+  DE --> AI[呼叫 Gemini<br/>temperature 0 + responseSchema + 評分錨點]
+  AI --> AJ{JSON 合規格？<br/>分數 1–10 整數}
+  AJ -->|否，重試一次仍否| E502b[回 502 AI 分析失敗，不存 0 分]
+  AJ -->|是| SN{主訴含危險關鍵字<br/>但分數 < 8？}
+  SN -->|是| UP[安全網：分數提到 8、需人工介入]
+  SN -->|否| W1
+  UP --> W1[POST Encounter]
+  W1 --> W2[POST Condition（連 Encounter）]
+  W2 --> W3[POST Observation（分數，連 Encounter）]
+  W3 --> OK{三筆都回 201<br/>且型別、id 正確？}
+  OK -->|否| E502c[回 502 FHIR 存檔失敗]
+  OK -->|是| LINE{分數 ≥ 10 或需人工？}
+  LINE -->|是| N[LINE 通知醫師（有設定才送）]
+  LINE -->|否| O
+  N --> O[/輸出：200 urgency_score、encounter_id、condition_id、fhir_reference/]
+  O --> X([結束])

@@ -1,0 +1,4 @@
+# 打包產物與下載的原始網頁不進版控
+package/*.zip
+notes/twcat/raw/
+.DS_Store

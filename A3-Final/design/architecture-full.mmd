@@ -1,0 +1,39 @@
+%% AI 分流系統 架構圖（完整版）：三張臉／大腦／器官。實線＝寫入，虛線＝讀取，粗線＝醫師接受建議
+flowchart LR
+  subgraph faces[前端介面 Vue :5173]
+    S["① 建立資料頁"]
+    P["② 病人回報頁"]
+    D["③ 醫師查看頁（模擬 EHR）"]
+    I["④ 匯入 JSON 頁<br/>預覽來源與 FHIR 並排"]
+  end
+  subgraph brain[後端服務 Express :3000]
+    TW["/api/twcore<br/>建立 Org／Practitioner／Role／Patient<br/>Task／Appointment"]
+    T["/api/triage/analyze<br/>限流 → 去識別化 → AI → 安全網 → 寫三筆"]
+    C["/cds-services<br/>patient-view 卡片＋建議、feedback"]
+    X["/api/fhirfox<br/>convert／validate／upload<br/>官方 FHIRfox CSV 規則"]
+    FC["fhirClient + oauth<br/>Bearer token、證據檔 logs/"]
+  end
+  subgraph organs[外部服務與資料儲存]
+    G["Gemini<br/>temperature 0 + responseSchema"]
+    K["Keycloak（聯測主機）<br/>client credentials"]
+    F[("FHIR Server<br/>twcore.hapi.fhir.tw（TW Core）")]
+    L["LINE Notify（選用，單向）"]
+    V["validator_cli（本機 Java）<br/>TW Core 1.0.0"]
+  end
+  S -->|表單欄位| TW
+  TW -->|$validate → PUT/POST 資源| FC
+  P -->|patientId、patientText| T
+  T -->|去識別化主訴| G
+  G -->|urgency_score、needs_human、summary| T
+  T -->|Encounter → Condition → Observation| FC
+  T -.->|分數 ≥ 10 或需人工| L
+  D -.->|patient-view| C
+  C -.->|查最新 Observation| FC
+  C -.->|卡片 + 建議| D
+  D ==>|接受建議：Task／Appointment| TW
+  I -->|Simplified JSON| X
+  X -.->|Bundle| V
+  V -.->|Error 數，0 才上傳| X
+  X -->|transaction Bundle（全部 POST）| FC
+  FC -->|REST + Bearer| F
+  FC -.->|取 token| K

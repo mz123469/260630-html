@@ -1,0 +1,101 @@
+【要做什麼】
+病人填基本資料並用自己的話描述身體狀況，系統請 AI 評估急迫性並存到 FHIR Server；醫師選機構與身分登入後打開病歷，自動看到評估卡片，並能一鍵建立轉介單或排回診（時間可改）。
+兩種模式同一個後端：「一般使用」（病人端 → 醫師端 → 醫師查看）與「聯測順序」（① 建立資料 → ② 病人回報 → ③ 醫師查看 → ④ 匯入 JSON），導覽列切換。
+聯測松 Track 1：④ 匯入 JSON 把主辦方 FHIRfox 的 Simplified JSON 轉成 TW Core 1.0.0，官方 validator 驗到 Error 0 才以 transaction 上傳。
+（本檔是練習 4 的規格；要改功能時先改 design/ 的圖，再改這份，最後才改程式。）
+
+【API】
+POST /api/triage/report（一般使用：病人端一次送出）
+  輸入：{ "name", "idCardNumber"（1 字母＋9 數字）, "gender"（male/female/other/unknown）, "birthDate"（YYYY-MM-DD，不在未來）, "orgCode"（官方機構代碼）, "patientText"（1–3000 字） }
+  處理：機構已有就沿用、沒有就建立 → 病人以身分證查，已有就沿用（不覆蓋）、沒有就 $validate 後建立 → 同 /analyze 的 AI 評估與寫入
+  回應 200：同 /analyze，另加 "patient_id"、"patient_reused"；錯誤：400 欄位錯（issues 列出每個位置）；429 一分鐘超過 10 次；502
+  不收 id／practitionerId／update：病人端不能指定代號、掛名醫師或覆蓋資料
+POST /api/triage/analyze（聯測順序：病人已在 ① 建好）
+  輸入：{ "patientId": string（FHIR id：英數、連字號、句點，1–64 字）, "patientText": string（1–3000 字） }
+  回應 200：{ "success": true, "data": { "urgency_score": 1–10 整數, "emotion", "symptoms": [], "needs_human_intervention": boolean, "summary" },
+            "fhir_reference": Observation id, "encounter_id", "condition_id", "alert_simulated"? }
+  錯誤：400 輸入不完整或格式錯（附說明）；404 找不到病人；429 一分鐘超過 10 次；502 AI 失敗或 FHIR 失敗（不回預設分數、不存半套）
+GET  /cds-services                       CDS Hooks Discovery
+POST /cds-services/patient-triage-service patient-view hook → { cards: [ { summary, indicator, detail, suggestions? } ] }
+POST /cds-services/patient-triage-service/feedback
+POST /api/twcore/organization | practitioner | practitioner-role | patient   建立 TW Core 基礎資源（?check 只檢查；update:true 才覆蓋；reuse:true 已有就沿用、永不覆蓋，醫師端登入用，Practitioner 證書字號＋姓名都要相同）
+POST /api/twcore/task | appointment      醫師接受卡片建議（只送 id，資源在後端重組；appointment 可帶 start＝回診時間，必須在未來一年內，沒帶就三天後）
+GET  /api/twcore/patient/:id、GET /api/twcore/organization/:id/patients、GET /api/twcore/organization-codes、POST /api/twcore/validate
+POST /api/fhirfox/convert | validate | upload（聯測匯入，body＝FHIRfox Simplified JSON：陣列或 { "resources": [...] }）
+  輸入每筆：{ "id"（英數、連字號、句點）, "resourceType"（patient、encounter、condition、observation-vital-signs、observation-laboratory-result、
+            procedure、medication、medicationrequest、diagnosticreport、organization、practitioner、practitionerrole、allergyintolerance、imagingstudy）, 其他欄位照 FHIRfox 定義 }
+  convert：只轉換 → 200 { bundle（collection）, map:[{ index, sourceType, sourceId, resourceType, fullUrl, profile }], issues }；轉換錯 400（issues 位置＝「[第幾筆] 型別/id.欄位」）
+  validate：轉換＋官方 validator_cli（tw.gov.mohw.twcore#1.0.0）→ 200 validated；Error > 0 回 422；validator 或 Java 不能用回 503
+  upload：轉換＋驗證，Error 0 才送 transaction Bundle → 200 { map:[…, id, status（201 新建／200 沿用）, url], patientId, organizationId }
+          FHIR 拒絕回同一個狀態碼（4xx：整包沒寫入；5xx：請到伺服器確認）；連不到 502；逾時 504；回應位置不對 502
+GET  /api/fhirfox/sample                 範例輸入（TWCORE-OPD-007 感冒門診格式＋一筆 Procedure，12 筆）
+
+【請求範例】
+curl -s localhost:3000/api/fhirfox/sample > s.json; curl -X POST localhost:3000/api/fhirfox/validate -H "Content-Type: application/json" --data @s.json
+curl -X POST http://localhost:3000/api/triage/analyze -H "Content-Type: application/json" \
+  -d '{"patientId":"patient-tw-example","patientText":"昨天開始頭痛，晚上睡不好"}'
+錯誤輸入：{}　→ 400「請先描述您現在的身體狀況」；{"patientId":"陳 小明","patientText":"測試"} → 400「請先選擇病人」
+一般使用：curl -X POST http://localhost:3000/api/triage/report -H "Content-Type: application/json" \
+  -d '{"name":"陳小明","idCardNumber":"A123456789","gender":"male","birthDate":"1995-05-20","orgCode":"0131060029","patientText":"這兩天爬樓梯會喘"}'
+
+【架構圖】design/architecture.mmd（一般使用版 5 節點；畫布版 architecture.png）；聯測版 architecture-connectathon.mmd；完整版 architecture-full.mmd
+
+【細部流程】design/flowchart_detail.mmd（一般使用版「病人端送出」：限流 → 檢查輸入 → 查 Patient（沿用或 $validate 後建立）→ 去識別化 → AI → 安全網 → 寫三筆 → 回應；每個「否」寫狀態碼）；現行程式的 /api/triage/analyze 流程在 flowchart_detail-connectathon.mmd
+
+【序列圖】design/sequence.mmd（一般使用版 26 步：寫入、卡片、接受建議）；現行 15 步在 sequence-connectathon.mmd；整體 design/sequence_system.mmd
+聯測匯入：細部流程 design/flowchart_detail-import.mmd（每個「否」寫狀態碼）、序列 design/sequence-import.mmd（預覽 → 驗證 → 上傳 15 步）
+
+【資料】
+存放位置：FHIR Server https://twcore.hapi.fhir.tw/fhir（TW Core IG 1.0.0 Profile）
+一次回報寫三筆互相參照：Encounter-twcore（class VR 遠距）→ Condition-twcore（code.text＝AI 摘要）→ Observation-screening-assessment-twcore
+  Observation：category survey；code 自訂 CodeSystem http://example.org/fhir/ai-triage/CodeSystem/ai-triage#urgency-score；
+  valueQuantity 1–10（UCUM {score}）；component emotion（valueString）、needs-human-intervention（valueBoolean）；note 摘要與症狀；effectiveDateTime 排序用
+醫師接受建議：Task（status requested、priority urgent、focus Observation、for Patient、owner Practitioner）、
+  Appointment（status proposed、三天後 30 分鐘、participant 病人＋醫師）；identifier system https://www.tph.mohw.gov.tw/ai-triage/follow-up，值＝Observation id（同一筆評估只建一次）
+識別碼：Patient id 照 FHIR id 規則；身分證 1 字母＋9 數字只放 identifier（system http://www.moi.gov.tw）
+AI 回應格式：responseSchema { emotion, urgency_score(int), symptoms[], needs_human_intervention(bool), summary }
+聯測匯入：轉換規則與院內碼對照表是官方 FHIRfox 的 CSV（AI-Patient-Triage-System/fhir/fhirfox/，Apache-2.0，commit 7d2951e），程式不寫死代碼；
+  fullUrl＝urn:uuid（UUID v5，跟官方標準答案相同）；Profile 照 resource-profiles.csv（生命徵象依 LOINC 選子 Profile）；
+  上傳一律 POST、不帶 id；Organization／Practitioner／Patient 帶 If-None-Exist（識別碼；病人用身分證），已有就沿用，其他資源每次上傳都新增
+
+【技術】
+Node 22、Express 5、Vue 3 + Vite、axios；FHIR Server https://twcore.hapi.fhir.tw/fhir（講義寫 hapi.fhir.tw，本專案用 TW Core 測試伺服器）；
+AI：Gemini gemini-3.5-flash-lite（講義的 2.5 已停用），SDK @google/generative-ai 0.24（沿用 Demo；官方已停止更新，見【已知事項】）；
+systemInstruction 用 YAML 寫規則，評分錨點對照衛福部急診五級檢傷；temperature 0；responseSchema；後端關鍵字安全網。
+聯測主機：OAuth 2.0 client credentials（services/oauth.js，.env 的 OAUTH_*），token 不印、不進證據檔。
+
+【限制】
+金鑰只從 .env 讀取；不使用未列出的套件；外部服務（AI、FHIR）失敗回 502，不得回預設分數；
+送 AI 前去識別化（身分證、居留證、電話、Email）；終端機不印查詢值；回應不含堆疊；
+建立類與 CDS 端點限流；病人回報（/analyze、/report）每分鐘 10 次；資源送出前先 $validate，有 error 不建立。
+聯測匯入：body ≤ 1 MB、≤ 100 筆、每個值 ≤ 1000 字且只能是文字／數字／布林；參照只能指向同一份資料裡的資源、不准跨病人；
+  不收 PUT／update、不收使用者指定的伺服器 id（來源 id 只用來互相參照）；限流 convert 60、validate／upload 各 6 次／分鐘；
+  上傳前一定用 validator_cli 驗 TW Core 1.0.0，Error > 0 或驗不了都不上傳。
+一般使用：病人端不能指定 Patient id、掛名醫師或更新既有資料；reuse 只沿用不覆蓋；醫師端同一證書字號只能配同一姓名；回診時間限未來一年內；同一筆評估的轉介單／回診只建一次（改時間不會改已建的）。
+
+【驗收】
+curl：合法輸入 200 且 body 有 urgency_score；空 body 400 並附說明；識別碼格式錯 400（tools/check-api.sh）。
+AI：分數來自 AI 且為 1–10 整數；AI 失敗 502。
+儲存：三筆 201，id 合法；Observation 查得到且 valueQuantity.value＝畫面分數。
+讀取：醫師頁卡片 8 分以上 critical、5–7 warning、其他 info；查無資料、查詢失敗、未帶識別碼分開回應。
+建議：緊急卡片建 Task、注意卡片建 Appointment（醫師可改時間，過去的時間擋下）；重按只沿用。
+一般使用：病人端一次送出就建病人＋三筆評估；同身分證再送只沿用病人；醫師端登入後列出本機構病人；未登入進醫師查看會被引導。
+聯測匯入：範例 convert 200、validate Error 0、upload 201 × 12 且參照都換成伺服器 id；再上傳一次機構／醫師／病人回 200 沿用；白帽第五輪 Q1–Q18（notes/白帽攻擊紀錄-第五輪-匯入聯測JSON.md）。
+自動測試：聯測順序 30／30、一般使用 19／19（含白帽第四輪）、流程截圖 24＋8＋8 步、validator 12 檔 Error 0。
+
+【已知事項】
+1. SDK @google/generative-ai 0.24 官方已停止更新。本專案沿用 A3-8 Demo，講義允許維持；要換 @google/genai 時呼叫方式不同
+   （new GoogleGenAI({apiKey}) → ai.models.generateContent({ model, contents, config: { systemInstruction, responseMimeType, responseSchema, temperature } })），
+   只動 services/aiService.js 一個檔，不能只改套件名；換完要重跑 AI 穩定測試（三句主述各五次）。
+2. 講義【技術】的 FHIR Server 是 hapi.fhir.tw，本專案用 twcore.hapi.fhir.tw（TW Core 測試站）；模型 2.5-flash-lite 已停用，本專案用 3.5-flash-lite。
+3. 講義【限制】「不修改前端」只適用第一階段，本專案已有前端，不列入。
+4. 門檻刻意分兩處：CDS 卡片 critical ≥ 8（給醫師看）、LINE 通知 ≥ 10（只在最嚴重時打擾）。
+5. twcore.hapi.fhir.tw 跑 TW Core 0.3.x：它的就醫科別值集沒有 SNOMED，官方對照 Spec-0001（SNOMED 419772000）在那台會讓整包 422（1.0.0 驗證是過的）；
+   範例因此不帶 PractitionerRole.specialtyCode。聯測主機若是 1.0.0 就沒有這個問題。
+6. 機構／醫師／病人以外的資源沒有可靠的全域識別碼（FHIRfox 的 Encounter identifier 是 idSystem|1），重複上傳同一份會再新增一份。
+
+【本階段範圍】
+第五階段已完成（前端三頁＋加分項 CDS 建立 Task）。一般使用模式（病人端／醫師端／醫師查看、模式切換、回診時間可改）已照「先改圖 → 再改規格 → 最後改程式」完成（v13）。
+聯測匯入（v14）已照「先改圖 → 再改規格 → 最後改程式」完成。
+下一步候選：醫師端密碼或 SMART 登入（目前只憑證書字號＋姓名，示範用）；建立資料的細部流程圖；拿到聯測主機後用官方 fhirfox-validator 逐案比對標準答案。
+請先說明實作方式與會修改的檔案，再給程式。
